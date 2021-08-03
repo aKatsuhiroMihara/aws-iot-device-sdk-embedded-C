@@ -235,6 +235,7 @@ static OpensslStatus_t tlsHandshake( const ServerInfo_t * pServerInfo,
     OpensslStatus_t returnStatus = OPENSSL_SUCCESS;
     int32_t sslStatus = -1, verifyPeerCertStatus = X509_V_OK;
 
+#if 0
     /* Validate the hostname against the server's certificate. */
     sslStatus = SSL_set1_host( pOpensslParams->pSsl, pServerInfo->pHostName );
 
@@ -243,6 +244,7 @@ static OpensslStatus_t tlsHandshake( const ServerInfo_t * pServerInfo,
         LogError( ( "SSL_set1_host failed to set the hostname to validate." ) );
         returnStatus = OPENSSL_API_ERROR;
     }
+#endif
 
     /* Enable SSL peer verification. */
     if( returnStatus == OPENSSL_SUCCESS )
@@ -478,6 +480,7 @@ static void setOptionalConfigurations( SSL * pSsl,
     assert( pSsl != NULL );
     assert( pOpensslCredentials != NULL );
 
+#if 0
     /* Set TLS ALPN if requested. */
     if( ( pOpensslCredentials->pAlpnProtos != NULL ) &&
         ( pOpensslCredentials->alpnProtosLen > 0U ) )
@@ -493,6 +496,7 @@ static void setOptionalConfigurations( SSL * pSsl,
                         pOpensslCredentials->pAlpnProtos ) );
         }
     }
+#endif
 
     /* Set TLS MFLN if requested. */
     if( pOpensslCredentials->maxFragmentLength > 0U )
@@ -517,12 +521,14 @@ static void setOptionalConfigurations( SSL * pSsl,
         }
         else
         {
+#if 0
             readBufferLength = ( int16_t ) pOpensslCredentials->maxFragmentLength +
                                SSL3_RT_MAX_ENCRYPTED_OVERHEAD;
 
             /* Change the size of the read buffer to match the
              * maximum fragment length + some extra bytes for overhead. */
             SSL_set_default_read_buffer_len( pSsl, ( size_t ) readBufferLength );
+#endif
         }
     }
 
@@ -592,7 +598,7 @@ OpensslStatus_t Openssl_Connect( NetworkContext_t * pNetworkContext,
     /* Create SSL context. */
     if( returnStatus == OPENSSL_SUCCESS )
     {
-        pSslContext = SSL_CTX_new( TLS_client_method() );
+        pSslContext = SSL_CTX_new( TLSv1_2_client_method() );
 
         if( pSslContext == NULL )
         {
