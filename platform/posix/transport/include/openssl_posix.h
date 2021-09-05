@@ -20,6 +20,11 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * Customized by ACCESS CO., LTD.
+ * Copyright(c) 2021 ACCESS CO., LTD. All rights are reserved.
+ */
+
 #ifndef OPENSSL_POSIX_H_
 #define OPENSSL_POSIX_H_
 
@@ -206,6 +211,11 @@ int32_t Openssl_Recv( NetworkContext_t * pNetworkContext,
 int32_t Openssl_Send( NetworkContext_t * pNetworkContext,
                       const void * pBuffer,
                       size_t bytesToSend );
+
+/**
+ * @brief Initialize OpenSSL Library.
+ */
+void Openssl_Initialize(void);
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

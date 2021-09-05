@@ -21,6 +21,11 @@
  * SOFTWARE.
  */
 
+/*
+ * Customized by ACCESS CO., LTD.
+ * Copyright(c) 2021 ACCESS CO., LTD. All rights are reserved.
+ */
+
 /* Standard includes. */
 #include <assert.h>
 #include <string.h>
@@ -921,5 +926,15 @@ int32_t Openssl_Send( NetworkContext_t * pNetworkContext,
     }
 
     return bytesSent;
+}
+
+void Openssl_Initialize(void)
+{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+    SSL_library_init();
+#else
+    OPENSSL_init_ssl(0, NULL);
+#endif
+    SSL_load_error_strings();
 }
 /*-----------------------------------------------------------*/
